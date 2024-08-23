@@ -27,7 +27,7 @@ RUN python3 -m pip install unicorn
 RUN python3 -m pip install keystone-engine
 RUN python3 -m pip install ropper
 
-# one_gadget install <- Nope wtf?! maybe ruby version problem
+# one_gadget install <- 아니 원가젯 버전 으악
 # RUN apt install ruby-full ruby-dev -y
 # RUN gem install one_gadget -v 1.3.4.1
 

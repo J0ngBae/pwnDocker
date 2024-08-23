@@ -1,8 +1,8 @@
 FROM ubuntu:20.04
 
-ENV LANG C.UTF-8
-ENV LANGUAGE C.UTF-8
-ENV LC_ALL C.UTF-8
+ENV LANG=C.UTF-8
+ENV LANGUAGE=C.UTF-8
+ENV LC_ALL=C.UTF-8
 WORKDIR /root
 
 # Prevent User Interactive
@@ -21,7 +21,7 @@ RUN dpkg --add-architecture i386
 RUN apt update
 RUN apt install libc6-i386 libc6-dbg gcc-multilib -y
 
-RUN COPY angelheap_set ~/.angelheap_set
+COPY angelheap_set /root/.angelheap_set
 
 # pwntools install
 RUN python3 -m pip install --upgrade pip
@@ -39,7 +39,7 @@ RUN echo source ~/.gdbinit-gef.py >> ~/.gdbinit
 
 # Angelheap setting
 RUN git clone https://github.com/scwuaptx/Pwngdb.git
-RUN cat ~/.angelheap_set >> ~/.gdbinit
+RUN cat /root/.angelheap_set >> ~/.gdbinit
 
 # one_gadget install
 RUN gem install one_gadget
