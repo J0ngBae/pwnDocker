@@ -1,5 +1,7 @@
 FROM ubuntu:20.04
 
+ARG ANGELHEAP_PATH='./angelheap'
+
 ENV LANG=C.UTF-8
 ENV LANGUAGE=C.UTF-8
 ENV LC_ALL=C.UTF-8
@@ -21,7 +23,8 @@ RUN dpkg --add-architecture i386
 RUN apt update
 RUN apt install libc6-i386 libc6-dbg gcc-multilib -y
 
-COPY angelheap_set /root/.angelheap_set
+# angelheap copy
+COPY ${ANGELHEAP_PATH}/angelheap_set /root/.angelheap_set
 
 # pwntools install
 RUN python3 -m pip install --upgrade pip
@@ -33,8 +36,9 @@ RUN python3 -m pip install filebytes
 RUN python3 -m pip install keystone-engine
 RUN python3 -m pip install ropper
 
-# gef install
-RUN wget -O ~/.gdbinit-gef.py -q https://gef.blah.cat/py
+# gef install -> 2022.06 version install
+# Because latest version is required gdb 10.0v or higher (2025.01.19 update)
+RUN wget -O ~/.gdbinit-gef.py -q https://raw.githubusercontent.com/hugsy/gef/2022.06/gef.py
 RUN echo source ~/.gdbinit-gef.py >> ~/.gdbinit
 
 # Angelheap setting
@@ -42,7 +46,8 @@ RUN git clone https://github.com/scwuaptx/Pwngdb.git
 RUN cat /root/.angelheap_set >> ~/.gdbinit
 
 # one_gadget install
-RUN gem install one_gadget
+# [!] ruby version issue. one_gadget should use v1.9.0
+RUN gem install one_gadget -v 1.9.0
 
 # zsh setting
 RUN chsh -s $(which zsh) 

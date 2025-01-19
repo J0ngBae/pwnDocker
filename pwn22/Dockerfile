@@ -1,5 +1,7 @@
 FROM ubuntu:22.04
 
+ARG ANGELHEAP_PATH='./angelheap'
+
 ENV LANG=C.UTF-8
 ENV LANGUAGE=C.UTF-8
 ENV LC_ALL=C.UTF-8
@@ -21,7 +23,8 @@ RUN dpkg --add-architecture i386
 RUN apt update
 RUN apt install libc6-i386 libc6-dbg gcc-multilib -y
 
-COPY angelheap_set /root/.angelheap_set
+# angelheap copy
+COPY ${ANGELHEAP_PATH}/angelheap_set /root/.angelheap_set
 
 # pwntools install
 RUN python3 -m pip install --upgrade pip
